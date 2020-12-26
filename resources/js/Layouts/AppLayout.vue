@@ -1,6 +1,6 @@
 <template>
-    <div class="min-h-screen bg-gray-100">
-        <nav class="bg-white border-b border-gray-100">
+    <div class="min-h-screen bg-background-primary" :class="theme">
+        <nav class="bg-background-tertiary">
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
@@ -20,6 +20,7 @@
                             <jet-nav-link :href="route('users.index')" :active="route().current('users.index')">
                                 User
                             </jet-nav-link>
+                            <theme-switcher :theme="theme" @themeChanged="updateTheme" />
                         </div>
                     </div>
 
@@ -28,11 +29,11 @@
                         <div class="ml-3 relative">
                             <jet-dropdown align="right" width="48">
                                 <template #trigger>
-                                    <button v-if="$page.jetstream.managesProfilePhotos" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                                    <button v-if="$page.jetstream.managesProfilePhotos" class="flex text-sm border-2 border-transparent rounded-full transition duration-150 ease-in-out">
                                         <img class="h-8 w-8 rounded-full object-cover" :src="$page.user.profile_photo_url" :alt="$page.user.name" />
                                     </button>
 
-                                    <button v-else class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                                    <button v-else class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out">
                                         <div>{{ $page.user.name }}</div>
 
                                         <div class="ml-1">
@@ -45,7 +46,7 @@
 
                                 <template #content>
                                     <!-- Account Management -->
-                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                    <div class="block px-4 py-2 text-xs text-copy-secondary">
                                         Manage Account
                                     </div>
 
@@ -57,11 +58,11 @@
                                         API Tokens
                                     </jet-dropdown-link>
 
-                                    <div class="border-t border-gray-100"></div>
+                                    <div class="border-t border-border-color-tertiary"></div>
 
                                     <!-- Team Management -->
                                     <template v-if="$page.jetstream.hasTeamFeatures">
-                                        <div class="block px-4 py-2 text-xs text-gray-400">
+                                        <div class="block px-4 py-2 text-xs text-copy-secondary">
                                             Manage Team
                                         </div>
 
@@ -74,10 +75,10 @@
                                             Create New Team
                                         </jet-dropdown-link>
 
-                                        <div class="border-t border-gray-100"></div>
+                                        <div class="border-t border-border-color-tertiary"></div>
 
                                         <!-- Team Switcher -->
-                                        <div class="block px-4 py-2 text-xs text-gray-400">
+                                        <div class="block px-4 py-2 text-xs text-copy-secondary">
                                             Switch Teams
                                         </div>
 
@@ -92,7 +93,7 @@
                                             </form>
                                         </template>
 
-                                        <div class="border-t border-gray-100"></div>
+                                        <div class="border-t border-border-color-tertiary"></div>
                                     </template>
 
                                     <!-- Authentication -->
@@ -108,7 +109,7 @@
 
                     <!-- Hamburger -->
                     <div class="-mr-2 flex items-center sm:hidden">
-                        <button @click="showingNavigationDropdown = ! showingNavigationDropdown" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                        <button @click="showingNavigationDropdown = ! showingNavigationDropdown" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 transition duration-150 ease-in-out">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                 <path :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                                 <path :class="{'hidden': ! showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -124,8 +125,6 @@
                     <jet-responsive-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                         Dashboard
                     </jet-responsive-nav-link>
-                </div>
-                <div class="pt-2 pb-3 space-y-1">
                     <jet-responsive-nav-link :href="route('users.index')" :active="route().current('users.index')">
                         User
                     </jet-responsive-nav-link>
@@ -201,9 +200,11 @@
         </nav>
 
         <!-- Page Heading -->
-        <header class="bg-white shadow">
+        <header class="bg-background-secondary shadow">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                <slot name="header"></slot>
+                <h2 class="text-copy-secondary font-semibold text-xl leading-tight">
+                    <slot name="header"></slot>
+                </h2>
             </div>
         </header>
 
@@ -224,6 +225,7 @@
     import JetDropdownLink from '@/Jetstream/DropdownLink'
     import JetNavLink from '@/Jetstream/NavLink'
     import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink'
+    import ThemeSwitcher from '@/Custom/ThemeSwitcher'
 
     export default {
         components: {
@@ -232,11 +234,13 @@
             JetDropdownLink,
             JetNavLink,
             JetResponsiveNavLink,
+            ThemeSwitcher,
         },
 
         data() {
             return {
                 showingNavigationDropdown: false,
+                theme: ''
             }
         },
 
@@ -254,6 +258,14 @@
                     window.location = '/';
                 })
             },
-        }
+
+            updateTheme(theme) {
+                this.theme = theme;
+            }
+        },
+
+        mounted() {
+            this.theme = localStorage.getItem('theme') || 'theme-light';
+        },
     }
 </script>

@@ -1,14 +1,12 @@
 <template>
     <app-layout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                User
-            </h2>
+            User
         </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
+                <div class="bg-background-tertiary shadow-xl sm:rounded-lg px-4 py-4">
                     <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3" role="alert" v-if="$page.flash.message">
                         <div class="flex">
                             <div>
@@ -16,28 +14,39 @@
                             </div>
                         </div>
                     </div>
-                    <button @click="openModal()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Create New Post</button>
-                    <table class="table-fixed w-full">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="px-4 py-2 w-20">No.</th>
-                                <th class="px-4 py-2">Name</th>
-                                <th class="px-4 py-2">Email</th>
-                                <th class="px-4 py-2 w-48">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(row, index) in data" :key="row.id">
-                                <td class="border px-4 py-2">{{ index + 1 }}</td>
-                                <td class="border px-4 py-2">{{ row.name }}</td>
-                                <td class="border px-4 py-2">{{ row.email }}</td>
-                                <td class="border px-4 py-2 text-center">
-                                    <button @click="edit(row)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
-                                    <button @click="deleteRow(row)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <button @click="openModal()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Create User</button>
+                    <div class="overflow-x-auto">
+                        <table class="table-fixed w-full min-w-768">
+                            <thead>
+                                <tr class="bg-background-secondary text-copy-secondary text-left">
+                                    <th class="px-4 py-2 w-20">No.</th>
+                                    <th class="px-4 py-2">Name</th>
+                                    <th class="px-4 py-2">Email</th>
+                                    <th class="px-4 py-2 w-28">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-copy-secondary" v-for="(row, index) in data" :key="row.id">
+                                    <td class="px-4 py-2">{{ index + 1 }}</td>
+                                    <td class="px-4 py-2">{{ row.name }}</td>
+                                    <td class="px-4 py-2">{{ row.email }}</td>
+                                    <td class="px-4 py-2">
+                                        <button @click="edit(row)" class="text-blue-500 hover:text-blue-700 font-bold p-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                                                <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                        <button @click="deleteRow(row)" class="text-red-500 hover:text-red-700 font-bold p-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400" v-if="isOpen">
                         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                             <div class="fixed inset-0 transition-opacity">
