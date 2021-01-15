@@ -226,7 +226,6 @@
     import JetNavLink from '@/Jetstream/NavLink'
     import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink'
     import ThemeSwitcher from '@/Custom/ThemeSwitcher'
-
     export default {
         components: {
             JetApplicationMark,
@@ -236,14 +235,12 @@
             JetResponsiveNavLink,
             ThemeSwitcher,
         },
-
         data() {
             return {
                 showingNavigationDropdown: false,
                 theme: ''
             }
         },
-
         methods: {
             switchToTeam(team) {
                 this.$inertia.put(route('current-team.update'), {
@@ -252,18 +249,15 @@
                     preserveState: false
                 })
             },
-
             logout() {
                 axios.post(route('logout').url()).then(response => {
                     window.location = '/';
                 })
             },
-
             updateTheme(theme) {
                 this.theme = theme;
             }
         },
-
         mounted() {
             this.theme = localStorage.getItem('theme') || 'theme-light';
         },

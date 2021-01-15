@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Actions\Jetstream\DeleteUser;
 use App\Models\User;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
-//use Your Model
 
 /**
  * Class UserRepository.
@@ -20,8 +20,19 @@ class UserRepository extends BaseRepository
         return User::class;
     }
 
-    public function getAllUsers()
+    // public function getAllUsers()
+    // {
+    //     return $this->model->all();
+    // }
+
+    public function deleteUser($id, $soft = true)
     {
-        return $this->model->all();
+        $jetstreamUserDelete = resolve(DeleteUser::class);
+        $user = $this->model->find($id);
+        if (!$soft) {
+            $jetstreamUserDelete->destory($user);
+        }
+
+        return $jetstreamUserDelete->delete($user);;
     }
 }

@@ -5330,6 +5330,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -50541,7 +50543,16 @@ var render = function() {
         {
           key: "header",
           fn: function() {
-            return [_vm._v("\n        Dashboard\n    ")]
+            return [
+              _c(
+                "h2",
+                {
+                  staticClass:
+                    "font-semibold text-xl text-gray-800 leading-tight"
+                },
+                [_vm._v("\n            Dashboard\n        ")]
+              )
+            ]
           },
           proxy: true
         }

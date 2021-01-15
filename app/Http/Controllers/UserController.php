@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = $this->userRepository->getAllUsers();
+        $data = $this->userRepository->get();
         return Inertia::render('User', ['data' => $data]);
     }
 
@@ -80,6 +80,18 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    /**
+     * Soft delete the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id)
+    {
+        $this->userRepository->deleteUser($id);
     }
 
     /**
